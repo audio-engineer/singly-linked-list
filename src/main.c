@@ -1,6 +1,11 @@
 #include "main.h"
 
+#ifdef __APPLE__
 #include <_xlocale.h>
+#endif
+#ifdef __linux__
+#include <bits/types/locale_t.h>
+#endif
 #include <locale.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -15,7 +20,7 @@ void AddNode(Head** head, long data) {
   }
 
   node->data = data;
-  node->next_node = NULL;
+  node->next_node = nullptr;
 
   if ((*head) == NULL) {
     (*head) = malloc(sizeof(Head));
@@ -70,7 +75,7 @@ bool RemoveNode(Head** head, long data) {
   if (current_node == previous_node && current_node->next_node == NULL) {
     free(current_node);
     free((*head));
-    (*head) = NULL;
+    (*head) = nullptr;
 
     return true;
   }
@@ -139,11 +144,11 @@ void PrintList(Head** head) {
 
   while (current_node != NULL) {
     if (current_node->next_node == NULL) {
-      wprintf(L"%lc %d %lc %p %lc %lc NULL", kVerticalLine, current_node->data,
+      wprintf(L"%lc %ld %lc %p %lc %lc NULL", kVerticalLine, current_node->data,
               kVerticalLineDashed, current_node->next_node, kVerticalLine,
               kArrow);
     } else {
-      wprintf(L"%lc %d %lc %p %lc %lc ", kVerticalLine, current_node->data,
+      wprintf(L"%lc %ld %lc %p %lc %lc ", kVerticalLine, current_node->data,
               kVerticalLineDashed, current_node->next_node, kVerticalLine,
               kArrow);
     }
@@ -184,10 +189,10 @@ bool IsScanfInputValid(int input) {
 void PrintOperationFailedMessage() { printf("Operation failed.\n"); }
 
 int main() {
-  locale_t locale = newlocale(LC_CTYPE, "en_US", NULL);
+  locale_t locale = newlocale(LC_CTYPE, "en_US", nullptr);
   uselocale(locale);
 
-  Head* head = NULL;
+  Head* head = nullptr;
   char* option_id_input = malloc(sizeof(char));
   long option_id = -1;
   char* input_one_string = malloc(sizeof(char));
@@ -197,7 +202,7 @@ int main() {
 
   while (option_id != kQuit) {
     int number_of_assigned_input_items = 0;
-    char* end = NULL;
+    char* end = nullptr;
     long input_one_long = 0;
     long input_two_long = 0;
     bool success = false;
